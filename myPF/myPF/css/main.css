@@ -185,6 +185,7 @@ justify-content: center;*/
 
 #inputcontentsContainer {
     position: fixed;
+    display: flex;
     bottom: 0px;
     width: 100%;
     height: 60px;
@@ -192,16 +193,15 @@ justify-content: center;*/
     background-color: rgba(255, 255, 255, 0.5);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
+    align-items: center;
 }
 
 #inputcontentsContainer2 {
-    position: fixed;
     width: 100%;
     bottom: 12.5px;
     height: 35px;
     display: flex;
     justify-content: center;
-    flex-direction: raw;
 }
 
 #tagType {
