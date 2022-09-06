@@ -205,12 +205,13 @@ justify-content: center;*/
 }
 
 #tagType {
-    display: table;
+    display: flex;
     width: 75px;
     border: 1px solid #d3d3d3;
     background-color: #ececec;
     cursor: pointer;
     user-select: none;
+    justify-content: center;
 }
 
 #tagType:hover {
@@ -224,9 +225,9 @@ justify-content: center;*/
 }
 
 #tagType>p {
-    display: table-cell;
     vertical-align: middle;
     font-size: 0.8em;
+    line-height: 35px;
 }
 
 #inputContents {
