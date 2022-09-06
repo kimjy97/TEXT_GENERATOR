@@ -191,7 +191,7 @@ justify-content: center;*/
 #inputcontentsContainer2 {
     position: absolute;
     transform: translate(-50%, 0);
-    width: 600px;
+    
     left: 50%;
     bottom: 12.5px;
     height: 35px;
@@ -227,7 +227,7 @@ justify-content: center;*/
 #inputContents {
     width: 100%;
     font-size: 1rem;
-    font-weight: 100;
+    font-weight: lighter;
     border: 1px solid #e0e0e0;
     background-color: rgb(255, 255, 255);
     margin-left: 5px;
