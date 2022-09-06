@@ -23,6 +23,15 @@ body {
     z-index: 9999999;
 }
 
+#mainTitle {
+    font-size: 2.8rem;
+    margin-bottom:0.2rem;
+}
+
+#subTitle {
+    font-size: 1rem;
+}
+
 #project_purpose {
     padding-top: 10em;
     margin-bottom: 3em;
@@ -156,6 +165,7 @@ justify-content: center;*/
     padding-right: 4px;
     font-size: 0.8rem;
     border-radius: 4px;
+    color : black;
 }
 
 #saveButton2:hover {
@@ -189,13 +199,14 @@ justify-content: center;*/
 }
 
 #inputcontentsContainer2 {
-    position: absolute;
+    position: fixed;
     transform: translate(-50%, 0);
-    
+    width: 100%;
     left: 50%;
     bottom: 12.5px;
     height: 35px;
     display: flex;
+    justify-content: center;
     flex-direction: raw;
 }
 
@@ -225,10 +236,11 @@ justify-content: center;*/
 }
 
 #inputContents {
-    width: 100%;
+    width: 450px;
     font-size: 1rem;
     font-weight: lighter;
     border: 1px solid #e0e0e0;
+    border-radius: 0px;
     background-color: rgb(255, 255, 255);
     margin-left: 5px;
     padding-left: 10px;
@@ -246,6 +258,7 @@ justify-content: center;*/
     width: 65px;
     border: 1px solid #bdbdbd;
     background-color: #dcdcff;
+    color: black;
     cursor: pointer;
 }
 
@@ -269,10 +282,22 @@ justify-content: center;*/
         width: 90%;
     }
     #inputcontentsContainer2 {
-        width: 90%;
+        width: 85%;
+    }
+    #inputContents {
+        width: 100%;
+    }
+    #mainTitle {
+        font-size: 1.8rem;
+        margin-bottom: 0.2rem;
+    }
+    #subTitle {
+        font-size: 0.8rem;
+    }
+    #project_purpose {
+        padding-top: 8em;
     }
     #project_purpose>div {
         width: 90%;
     }
-    
 }

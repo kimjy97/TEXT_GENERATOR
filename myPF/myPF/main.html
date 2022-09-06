@@ -176,8 +176,8 @@
 <body>
     <div id="project_title" align="center">
         <b>
-            <div style="font-size:2.8rem; margin-bottom:0.2rem;">TEXT GENERATOR</div>
-            <div style="font-size:1rem;">&ltP&gt, &ltSPAN&gt, &ltDIV&gt</div>
+            <div id = "mainTitle">TEXT GENERATOR</div>
+            <div id = "subTitle">&ltP&gt, &ltSPAN&gt, &ltDIV&gt</div>
         </b>
     </div>
 
@@ -224,7 +224,7 @@
             <div id="tagType" onClick="changeTag()">
                 <p id="tagTypeName"><b>NONE</b></p>
             </div>
-            <input type="text" id="inputContents" value="Type your code." 
+            <input type="text" id="inputContents" value="" 
                 onkeyup="javascript:if(event.keyCode == 13){writeContent()} typeSelect(event); arrayLoad(event);"><button
                 id="writeButton" onClick="writeContent()">입력</button>
 
