@@ -4,6 +4,15 @@
     padding: 0;
 }
 
+input, textarea, button {
+    appearance: none;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -168,10 +177,6 @@ justify-content: center;*/
     color : black;
 }
 
-#saveButton2:hover {
-    background-color: #e4e4e4;
-}
-
 #saveButton2:active {
     background-color: #dbdbdb;
 }
@@ -193,6 +198,7 @@ justify-content: center;*/
     background-color: rgba(255, 255, 255, 0.5);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
+    justify-content: center;
     align-items: center;
 }
 
@@ -212,11 +218,6 @@ justify-content: center;*/
     cursor: pointer;
     user-select: none;
     justify-content: center;
-}
-
-#tagType:hover {
-    border: 1px solid #d6d6d6;
-    background-color: #f5f5f5;
 }
 
 #tagType:active {
@@ -257,11 +258,6 @@ justify-content: center;*/
     cursor: pointer;
 }
 
-#writeButton:hover {
-    border: 1px solid #afafaf;
-    background-color: #d0d0ff;
-}
-
 #writeButton:active {
     border: 1px solid #a2a2a2;
     background-color: #c1c1ff;
@@ -277,10 +273,10 @@ justify-content: center;*/
         width: 90%;
     }
     #inputcontentsContainer2 {
-        width: 100%;
+        width: 95%;
     }
     #inputContents {
-        width: 150px;
+        width: 100%;
     }
     #mainTitle {
         font-size: 1.8rem;
