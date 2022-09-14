@@ -291,7 +291,7 @@ justify-content: center;*/
 #inputContents {
     width: 100%;
     font-size: 1rem;
-    font-weight: lighter;
+    font-weight: normal;
     border: 1px solid #d4d4d4;
     border-radius: 5px 0 0 5px;
     background-color: rgb(255, 255, 255);
