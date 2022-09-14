@@ -17,6 +17,9 @@
 
         var ctt, inputctt, tagType, toggle = 0, toggle2 = 0, temp = 0;
         var array = [];
+        var lineHeight = 20;
+        var inputHeight = 40;
+        var stopArray = false;
 
         window.onload = function () {
             ctt = document.getElementById("contents");
@@ -26,14 +29,15 @@
         }
 
         function writeContent() {
-            if (inputctt != "") {
+            if (inputctt.value != "") {
                 document.getElementById("contents").innerHTML = ctt.innerHTML + inputctt.value;
                 array.push(inputctt.value);
                 inputctt.value = "";
                 tagType.innerHTML = "<b>NONE</b>";
                 inputctt.focus();
-                window.scrollTo(0, ctt.scrollHeight);
+                window.scrollTo(0, document.body.scrollHeight);
                 temp = 0;
+                inputExtend(false);
             }
         }
 
@@ -60,17 +64,72 @@
         }
 
         function arrayLoad(e) {
-            if (e.keyCode === 38) {
-                if (array.length - temp > 0) {
-                    temp += 1;
-                    inputctt.value = array[array.length - temp];
+            if (stopArray == false) {
+                if (e.keyCode === 38) {
+                    if (array.length - temp > 0) {
+                        temp += 1;
+                        inputctt.value = array[array.length - temp];
+                    }
+                } else
+                    if (e.keyCode === 40) {
+                        if (temp > 1) {
+                            temp -= 1;
+                            inputctt.value = array[array.length - temp];
+                        }
+                    } else {
+                        stopArray = true;
+                    }
+            }
+            if (inputctt.value == "") {
+                stopArray = false;
+                temp = 0;
+            }
+            inputExtend(numOfLines(document.getElementById("inputContents"), lineHeight));
+        }
+
+        function numOfLines(ta, lh) {
+            var h0 = ta.style.height;
+            ta.style.height = 'auto';
+            var h1 = ta.scrollHeight;
+            ta.style.height = h0;
+            lineNum = Math.ceil(h1 / lh) - 1;
+            return Math.ceil(h1 / lh) - 1 >= 2;
+        }
+
+        function totalByte() {
+            var totalByte = 0;
+            var oneChar = "";
+            var str = "";
+            for (var i = 0; i < document.getElementById("inputContents").value.length; i++) {
+                oneChar = document.getElementById("inputContents").value.charAt(i);
+                if (escape(oneChar).length > 4) {
+                    totalByte += 2;
+                } else {
+                    totalByte++;
                 }
             }
-            if (e.keyCode === 40) {
-                if (temp > 1) {
-                    temp -= 1;
-                    inputctt.value = array[array.length - temp];
-                }
+            str = totalByte + " byte";
+            document.getElementById("byteCount").innerText = str;
+        }
+
+        function inputExtend(bool) {
+            if (bool) {
+                open();
+            } else {
+                close();
+            }
+            function open() {
+                document.getElementById("inputcontentsContainer2").style.height = "115px";
+                document.getElementById("tagType").style.height = "33px";
+                document.getElementById("contentsContainer").style.marginBottom = "160px";
+                document.getElementById("byteCount").style.visibility = "visible";
+            }
+
+            function close() {
+                document.getElementById("inputcontentsContainer2").style.height = "35px";
+                document.getElementById("tagType").style.height = "33px";
+                document.getElementById("contentsContainer").style.marginBottom = "45px";
+                document.getElementById("byteCount").style.visibility = "hidden";
             }
         }
 
@@ -168,72 +227,141 @@
             }
         }
 
+        $(window).scroll(function () {
+            var heightV = $(window).scrollTop();
+            if ($(window).outerWidth() > 800) {
+                if (heightV < 150) {
+                    var y = (-3 * heightV / 500) + 2.8;
+                    var z = (-1 * heightV / 500) + 1;
+                    var w = (-2 * heightV / 500) + 2;
+                    $('#mainTitle').css('font-size', y + "rem");
+                    $('#subTitle').css('font-size', z + "rem");
+                    $('#project_title').css('padding-top', w + "rem");
+                    $('#project_title').css('padding-bottom', w + "rem");
+                }
+            }
+        });
+
+        $(window).resize(function () {
+            if ($(window).outerWidth() < 800) {
+                $('#mainTitle').css('font-size', "1.8rem");
+                $('#subTitle').css('font-size', "0.8rem");
+                $('#project_title').css('padding-top', "1.5rem");
+                $('#project_title').css('padding-bottom', "1.5rem");
+            } else {
+                var heightV = $(window).scrollTop();
+                if (heightV < 150) {
+                    var y = (-3 * heightV / 500) + 2.8;
+                    var z = (-1 * heightV / 500) + 1;
+                    var w = (-2 * heightV / 500) + 2;
+                    $('#mainTitle').css('font-size', y + "rem");
+                    $('#subTitle').css('font-size', z + "rem");
+                    $('#project_title').css('padding-top', w + "rem");
+                    $('#project_title').css('padding-bottom', w + "rem");
+                }
+            }
+
+            if ($(window).outerWidth() > 1024) {
+                $('#contentsContainer').css('width', "70%");
+                $('#inputContents').css('width', "100%");
+                $('#sideMenuContainer').css('width', "250");
+                $('#bodyContainer').css('width', "calc(100% - 250px)");
+                $('#titleContainer').css('width', "calc(100% - 250px)");
+                $('#inputcontentsContainer').css('width', "calc(100% - 250px)");
+                $('#inputcontentsContainer2').css('width', "75%");
+            } else if ($(window).outerWidth() > 900) {
+                $('#contentsContainer').css('width', "800px");
+                $('#inputContents').css('width', "650px");
+                $('#sideMenuContainer').css('width', "0");
+                $('#bodyContainer').css('width', "100%");
+                $('#titleContainer').css('width', "100%");
+                $('#inputcontentsContainer').css('width', "100%");
+                $('#inputcontentsContainer2').css('width', "auto");
+            } else {
+                $('#contentsContainer').css('width', "90%");
+                $('#inputContents').css('width', "100%");
+                $('#sideMenuContainer').css('width', "0");
+                $('#bodyContainer').css('width', "100%");
+                $('#titleContainer').css('width', "100%");
+                $('#inputcontentsContainer').css('width', "100%");
+                $('#inputcontentsContainer2').css('width', "95%");
+                
+            }
+        });
+
     </script>
 
 </head>
 
 
 <body>
-    <div id="project_title" align="center">
-        <b>
-            <div id = "mainTitle">TEXT GENERATOR</div>
-            <div id = "subTitle">&ltP&gt, &ltSPAN&gt, &ltDIV&gt</div>
-        </b>
+    <div id="sideMenuContainer">
+        <div id="searchBar"><p>search</p></div>
     </div>
-
-
-    <div id="project_purpose" align="center">
-        <div>※ 이 프로젝트는 자주 활용되는 <b>&ltP&gt, &ltSPAN&gt, &ltDIV&gt</b> 태그들의
-            차이점을 이해하고 구분하여 실전 사용을 위해 연습 할 목적으로 제작되었습니다.<br><br><br>
-            <div style="color:rgb(66, 66, 66)">&ltP&gt TAG : BLOCK<br>
-                &ltSPAN&gt TAG : INLINE<br>
-                &ltDIV&gt TAG : BLOCK<br></div>
+    <div id="bodyContainer">
+        <div id="titleContainer">
+            <div id="project_title" align="center">
+                <b>
+                    <div id="mainTitle">TEXT GENERATOR</div>
+                    <div id="subTitle">&ltP&gt, &ltSPAN&gt, &ltDIV&gt</div>
+                </b>
+            </div>
         </div>
-    </div>
+        <div id="project_purpose" align="center">
+            <div>※ 이 프로젝트는 자주 활용되는 <b>&ltP&gt, &ltSPAN&gt, &ltDIV&gt</b> 태그들의
+                차이점을 이해하고 구분하여 실전 사용을 위해 연습 할 목적으로 제작되었습니다.<br><br><br>
+                <div id="project_content">&ltP&gt TAG : BLOCK<br>
+                    &ltSPAN&gt TAG : INLINE<br>
+                    &ltDIV&gt TAG : BLOCK<br></div>
+            </div>
+        </div>
+        <div id="project_contetnt" align="center">
+        </div>
 
 
-    <div id="project_content" align="center">
-    </div>
+        <div id="project_content" align="center">
+        </div>
 
+        <div align="center" style="margin-bottom: 80px;">
 
-    <div align="center">
-
-        <div id="contentsContainer">
-            <div id="functionContainer">
-                <div id="contentsType" align="left"><b>OUTPUT</b></div>
-                <div style="display: flex; justify-content: flex-end;"><img id="deleteButton" src="delete.png"
-                        onClick="deleteAll()" data-toglle="tooltip" title="DELETE">
-                    <div id="functionLine"></div><img id="saveButton" src="save.png" onClick="saveVisible()"
-                        data-toglle="tooltip" title="SAVE"><img id="copyButton" src="copy.png" onClick="copyAll()"
-                        data-toglle="tooltip" title="COPY">
+            <div id="contentsContainer">
+                <div id="functionContainer">
+                    <div id="contentsType" align="left"><b>OUTPUT</b></div>
+                    <div style="display: flex; justify-content: flex-end;"><img id="deleteButton" src="delete.png"
+                            onClick="deleteAll()" data-toglle="tooltip" title="DELETE">
+                        <div id="functionLine"></div><img id="saveButton" src="save.png" onClick="saveVisible()"
+                            data-toglle="tooltip" title="HTML SAVE"><img id="copyButton" src="copy.png"
+                            onClick="copyAll()" data-toglle="tooltip" title="COPY">
+                    </div>
                 </div>
+                <div id="saveInputContainer">
+                    <div id="saveLabel">NAME :</div><input type="text" id="filenameInput" value="output.txt"><button
+                        id="saveButton2" onClick="saveAll()">SAVE</button>
+                </div>
+                <div id="contents" align="left">Hello World!<br><br>입력 태그 타입 유연성있게 수정<br>버튼 오버 효과 추가 (check)<br>입력
+                    키보드키로
+                    불러오기 (check)<br>미디어쿼리 (check)<br>입력창 줄넘어가면 늘어나는 기능 (check)<br>입력창 글자수 기능 (check)<br>스크롤시 프로젝트 타이틀 확대
+                    및
+                    축소 (check)<br>info. 추가<br>사이드바 완성시키기<br>
+                </div>
+                <div id="footer" align="right">made by JongYeon Kim<br><b>ver.0.8</b></div>
             </div>
-            <div id="saveInputContainer">
-                <div id="saveLabel">NAME :</div><input type="text" id="filenameInput" value="output.txt"><button
-                    id="saveButton2" onClick="saveAll()">SAVE</button>
-            </div>
-            <div id="contents" align="left">Hello World!<br><br>입력 태그 타입 유연성있게 수정.<br>버튼 오버 효과 추가 (check)<br>입력 키보드키로
-                불러오기 (check)<br>미디어쿼리 (check)<br>입력창 줄넘어가면 늘어나는 기능<br>
-            </div>
-            <div id="footer" align="right">made by JongYeon Kim<br><b>ver.0.8</b></div>
         </div>
-
-    </div>
-    <div id="inputcontentsContainer">
-        <div id="inputcontentsContainer2">
-            <div id="tagType" onClick="changeTag()">
-                <p id="tagTypeName"><b>NONE</b></p>
+        <div id="inputcontentsContainer">
+            <div id="inputcontentsContainer2">
+                <div align="right" style="display: flex; flex-direction: column; justify-content: space-between;">
+                    <div id="tagType" onClick="changeTag(); inputExtend(false);">
+                        <p id="tagTypeName"><b>NONE</b></p>
+                    </div>
+                    <div id="byteCount">0 byte</div>
+                </div>
+                <textarea name="inputContents" id="inputContents" cols="15" rows="1"
+                    onkeyup="javascript:typeSelect(event); arrayLoad(event);" onkeydown="totalByte();"></textarea><button
+                    id="writeButton" onClick="writeContent()"><img id="enterImg" src="enter.png"></button>
             </div>
-            <input type="text" id="inputContents" value="" 
-                onkeyup="javascript:if(event.keyCode == 13){writeContent()} typeSelect(event); arrayLoad(event);"><button
-                id="writeButton" onClick="writeContent()">입력</button>
-
         </div>
     </div>
-
-    <br>
-    <br>
-
+    
 </body>
 
 </html>
