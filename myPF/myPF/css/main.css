@@ -16,8 +16,6 @@ input, textarea, button {
 body {
     font-family: 'Nanum Gothic', sans-serif;
     background-color: rgb(255, 255, 255);
-
-    
 }
 
 #sideMenuContainer {
@@ -362,8 +360,8 @@ justify-content: center;*/
         width: 90%;
     }
     #sideMenuContainer{
-        width: 0;
         visibility: hidden;
+        width: 0;
     }
     #bodyContainer {
         width: 100%;
