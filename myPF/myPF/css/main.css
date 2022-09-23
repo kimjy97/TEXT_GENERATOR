@@ -2,6 +2,7 @@
 * {
     margin: 0;
     padding: 0;
+    -webkit-user-drag: none;
 }
 
 input, textarea, button {
@@ -16,39 +17,169 @@ input, textarea, button {
 body {
     font-family: 'Nanum Gothic', sans-serif;
     background-color: rgb(255, 255, 255);
+    scroll-behavior: smooth;
 }
 
 #sideMenuContainer {
     position: fixed;
-    width: 234px;
+    display: flex;
+    flex-direction: column;
+    width: 250px;
     height: 100vh;
-    padding: 8px;
-    background-color: #9d9d9d;
+    background-color: #ffffff;
     z-index: 9999;
     float: left;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.4);
     visibility: visible;
+
+    -ms-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
 #searchBar {
-    width: 100%;
+    position: relative;
+    display: flex;
+    width: auto;
     height: 30px;
+    box-sizing: border-box;
     border-radius: 5px;
-    border: 1px solid rgb(136, 136, 136);
-    margin-top: 2px;
+    border: 1px solid rgb(197, 197, 197);
+    margin: 8px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     background-color: rgb(239, 239, 239);
     line-height: 30px;
+    align-items: center;
+
+    -ms-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    transition-duration: 0.5s;
 }
 
-#searchBar > p {
+#searchInput {
+    width: 100%;
+    height: 100%;
     padding-left: 10px;
+    font-size: 0.9rem;
+    border: none;
+    outline: none;
+    background: none;
     color: #9d9d9d;
 }
 
+#searchButton {
+    display: block;
+    width: 15px;
+    height: 15px;
+    padding: 8px;
+    cursor: pointer;
+    -webkit-user-drag: none;
+}
+
+#searchButton:hover {
+    filter:opacity(60%);
+}
+
+#libraryFunctionContainer {
+    display: flex;
+    box-sizing: border-box;
+    width: 100%;
+    margin-top: 3px;
+
+    -ms-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+}
+
+#libraryFunctionContainer > p {
+    width: 100%;
+    margin-left: 10px;
+    font-size: 0.8rem;
+    user-select: none;
+}
+
+#refreshButton {
+    width: 15px;
+    height: 15px;
+    padding: 8px;
+    padding-top: 0px;
+    margin-right: 4px;
+    cursor: pointer;
+}
+
+#refreshButton:hover {
+    filter:opacity(60%);
+}
+
+#libraryContainer {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    border-top:3px solid #d4d4d4;
+    border-bottom:3px solid #d4d4d4;
+    overflow: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    overscroll-behavior: none;
+    scroll-behavior: smooth;
+}
+
+#libraryContainer::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
+.fileList {
+    display: flex;
+    box-sizing: border-box;
+    background-color: white;
+    height: 35px;
+    line-height: 35px;
+    padding-left: 8px;
+    align-items: center;
+    font-size: 0.9rem;
+    border-bottom: 1px solid #d4d4d4;
+    cursor: default;
+    user-select: none;
+}
+
+#fileType {
+    width: 18px;
+    height: 18px;
+    margin-right: 5px;
+}
+
+.fileList > p {
+    width: 100%;
+    height: 100%;
+    padding-right: 12px;
+    font-weight: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.deleteFile {
+    width: 11px;
+    height: 11px;
+    padding: 8px;
+    margin-right: 4px;
+    filter: opacity(40%);
+    cursor: pointer;
+}
+
+.fileList:hover {
+    background-color: #f3f3ff;
+}
+
+
 #bodyContainer {
-    width: relative;
+    position: relative;
     width: calc(100% - 250px);
-    
     background-color: rgba(255, 255, 255, 1);
     float: right;
 }
@@ -68,6 +199,7 @@ body {
     background: linear-gradient(180deg, rgb(255, 255, 255, 1) 0%, rgb(255, 255, 255, 0.8) 40%, rgb(255, 255, 255, 0.7) 100%);
     -webkit-backdrop-filter: blur(2px);
     backdrop-filter: blur(2px);
+    user-select: none;
 }
 
 #mainTitle {
@@ -115,6 +247,11 @@ justify-content: center;*/
         border-radius: 5px;
         background-color: #ffffff;
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+
+        -ms-transition-duration: 0.4s;
+        -moz-transition-duration: 0.4s;
+        -webkit-transition-duration: 0.4s;
+        transition-duration: 0.4s;
 }
 
 #functionContainer {
@@ -128,7 +265,29 @@ justify-content: center;*/
 }
 
 #contentsType {
+    display: flex;
+    align-items: center;
+}
+
+#contentsType > b{
     font-size: 1rem;
+}
+
+#contentsType > p{
+    width: auto;
+    max-width: 150px;
+    margin-left: 5px;
+    padding-top: 2px;
+    font-size: 0.7rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#docByte {
+    margin-left: 10px;
+    font-size: 0.8rem;
+    color:#afafaf;
 }
 
 #functionLine {
@@ -138,6 +297,14 @@ justify-content: center;*/
     margin-right: 6px;
     margin-top: 5px;
     background-color: rgba(0, 0, 0, 0.1);
+}
+
+#newButton {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    padding: 5px;
+    padding-top: 6px;
 }
 
 #copyButton {
@@ -228,6 +395,11 @@ justify-content: center;*/
     margin-bottom: 15px;
     font-size: 0.9rem;
     overflow-x: auto;
+
+    -ms-transition-duration: 0.4s;
+    -moz-transition-duration: 0.4s;
+    -webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
 }
 
 #inputcontentsContainer {
@@ -242,6 +414,12 @@ justify-content: center;*/
     justify-content: center;
     align-items: center;
     z-index: 9998;
+
+    -ms-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
 }
 
 #inputcontentsContainer2 {
@@ -252,6 +430,12 @@ justify-content: center;*/
     margin-bottom : 12.5px;
     display: flex;
     justify-content: center;
+
+    -ms-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
 }
 
 #tagType {
@@ -291,7 +475,6 @@ justify-content: center;*/
 #inputContents {
     width: 100%;
     font-size: 1rem;
-    font-weight: normal;
     border: 1px solid #d4d4d4;
     border-radius: 5px 0 0 5px;
     background-color: rgb(255, 255, 255);
@@ -302,6 +485,11 @@ justify-content: center;*/
     line-height: 25px;
     resize: none;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+
+    -ms-transition-duration: 0.2s;
+    -moz-transition-duration: 0.2s;
+    -webkit-transition-duration: 0.2s;
+    transition-duration: 0.2s;
 }
 
 #inputContents:focus {
