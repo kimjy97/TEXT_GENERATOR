@@ -1,0 +1,4 @@
+Hello World!<br><br>입력 태그 타입 유연성있게 수정<br>버튼 오버 효과 추가 (check)<br>입력 키보드키로
+                    불러오기 (check)<br>미디어쿼리 (check)<br>입력창 줄넘어가면 늘어나는 기능 (check)<br>입력창 글자수 기능 (check)<br>스크롤시 프로젝트 타이틀 확대
+                    및 축소 (check)<br>info. 추가<br>사이드바 완성시키기<br>파일 읽기 기능 추가 (check)<br>파일 저장 기능 추가 (check)<br>맨 위로 올리기 버튼
+                    추가<br>파일 삭제 기능 추가 (check)<br>파일 검색 기능 추가 (check)<br>파일 목록 새로고침 기능 추가 (check)<br>모바일모드 사이드바 완성시키기<br>

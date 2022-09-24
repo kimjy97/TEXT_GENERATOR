@@ -188,41 +188,46 @@
         }
 
         function saveAll() {
-                if (document.getElementById("filenameInput").value == ".txt") {
-                    alert("파일명을 입력해주세요.");
-                } else {
-                    if (isIE() == 0) {
-                        /*  로컬 저장  */
-                        /*var blob = new Blob([ctt.innerHTML], { type: 'text/plain' });
-                        objURL = window.URL.createObjectURL(blob);
-        
-                        if (window.__Xr_objURL_forCreatingFile__) {
-                            window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
-                        }
-                        window.__Xr_objURL_forCreatingFile__ = objURL;
-                        var a = document.createElement('a');
-                        a.download = document.getElementById("filenameInput").value;
-                        a.href = objURL;
-                        a.click();*/
-                        if (modifyValue == true) {
-                            saveIntoServer();
-                            hidden();
-                        } else {
-                            alert("수정 및 저장이 불가능한 파일입니다.");
-                        }
+            var filename = document.getElementById("filenameInput").value;
+            if (filename == ".txt") {
+                alert("파일명을 입력해주세요.");
+            } else if(filename.includes('/')) {
+                    alert("사용하지 못하는 문자 '/' 가 입력되었습니다.");
+                }else {
+                if (isIE() == 0) {
+                    /*  로컬 저장  */
+                    /*var blob = new Blob([ctt.innerHTML], { type: 'text/plain' });
+                    objURL = window.URL.createObjectURL(blob);
+    
+                    if (window.__Xr_objURL_forCreatingFile__) {
+                        window.URL.revokeObjectURL(window.__Xr_objURL_forCreatingFile__);
+                    }
+                    window.__Xr_objURL_forCreatingFile__ = objURL;
+                    var a = document.createElement('a');
+                    a.download = document.getElementById("filenameInput").value;
+                    a.href = objURL;
+                    a.click();*/
+                    if (modifyValue == true) {
+                        changeValue = false;
+                        saveIntoServer();
+                        hidden();
+                    } else {
+                        alert("수정 및 저장이 불가능한 파일입니다.");
+                    }
 
-                    } else {/*
+                } else {/*
                 var blob = new Blob([ctt.innerHTML], { type: "text/plain", endings: "native" });
                 window.navigator.msSaveOrOpenBlob(blob, document.getElementById("filenameInput").value);
                 saveIntoServer();*/
-                        if (modifyValue == true) {
-                            saveIntoServer();
-                            hidden();
-                        } else {
-                            alert("수정 및 저장이 불가능한 파일입니다.");
-                        }
+                    if (modifyValue == true) {
+                        changeValue = false;
+                        saveIntoServer();
+                        hidden();
+                    } else {
+                        alert("수정 및 저장이 불가능한 파일입니다.");
                     }
                 }
+            }
 
             function saveIntoServer() {
                 if (totalByte2() < 5120) {
@@ -231,7 +236,9 @@
                         method: "POST",
                         data: { action: "save", contents: ctt.innerHTML, name: document.getElementById("filenameInput").value, byte: totalByte2() },
                         success: function (data) {
-                            initData();
+                            if (initData() == true) {
+                                setTimeout(function () { if (document.getElementById(filename) == null) alert("fileload error"); else libraryScroll(document.getElementById(filename)) }, 500);
+                            }
                             switch (data) {
                                 case "overlap":
                                     alert("파일명이 같은 파일이 있습니다.\n다른 파일명을 입력해주세요.");
@@ -241,9 +248,11 @@
                                     break;
                                 case "success":
                                     initData();
-                                    document.getElementById("fileName").innerText = '( '+document.getElementById("filenameInput").value+' )';
+                                    document.getElementById("fileName").innerText = '( ' + document.getElementById("filenameInput").value + ' )';
+                                    $.get('file/' + document.getElementById("filenameInput").value, function (data) { loadData(data, document.getElementById(document.getElementById("filenameInput").value)); });
                                     break;
                             }
+
                             return data;
                         },
                         error: function () {
@@ -277,12 +286,12 @@
         }
 
         function addFile() {
-            if(changeValue == false) {
-            document.getElementById("fileName").innerText = "( new.txt )";
-            document.getElementById("filenameInput").innerText = "new.txt";
-            document.getElementById("contents").innerText = "";
-            totalByte2();
-            $('.fileList').css('background-color', 'white');
+            if (changeValue == false) {
+                document.getElementById("fileName").innerText = "( new.txt )";
+                document.getElementById("filenameInput").innerText = "new.txt";
+                document.getElementById("contents").innerText = "";
+                totalByte2();
+                $('.fileList').css('background-color', 'white');
                 $('.fileList > p').css('font-weight', 'normal');
                 $('.deleteFile').hide();
                 $('.fileList').hover(function () {
@@ -292,7 +301,7 @@
                     $(this).css('background-color', 'white');
                     $(this).find('img.deleteFile').hide();
                 });
-            }else{
+            } else {
                 result = window.confirm('※ 현재 작성하고 있는 내용이 초기화됩니다.\n그래도 새로 파일을 만드시겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
                 if (result == 1) {
                     document.getElementById("fileName").innerText = "( new.txt )";
@@ -314,7 +323,7 @@
 
                 } else {
                     return;
-                } 
+                }
             }
 
         }
@@ -352,96 +361,155 @@
         /*JQuery 코드*/
 
         function fileLoad(tg) {
-                if (tg.style.backgroundColor != 'rgb(240, 240, 240)') {
-                    if (tg.innerText == "index.txt" || tg.innerText == "readme.txt") {
-                        modifyValue = false;
-                    } else {
-                        modifyValue = true;
-                    }
-                    $.get('file/' + tg.innerText, function (data) {
-                        if (changeValue == true) {
-                            result = window.confirm('※ 현재 작성하고 있는 내용이 초기화됩니다.\n그래도 파일 [ ' + tg.innerText + ' ]을 열겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
-                            if (result == 1) {
-                                loadData(data, tg);
-                            } else {
-                                return;
-                            }
-                        } else {
-                            loadData(data, tg);
-                        }
-                    });
+            if (tg.style.backgroundColor != 'rgb(240, 240, 240)') {
+                if (tg.innerText == "index.txt" || tg.innerText == "readme.txt") {
+                    modifyValue = false;
+                } else {
+                    modifyValue = true;
                 }
-            }
-            function loadData(data, tg) {
-                $('#contentsType > p').text('( ' + tg.innerText + ' )');
-                $('#contents').html(data);
-                $('.fileList').css('background-color', 'white');
-                $('.fileList > p').css('font-weight', 'normal');
-                $('.deleteFile').hide();
-                $('.fileList').hover(function () {
-                    $(this).css('background-color', '#f3f3ff');
-                    $(this).find('img.deleteFile').show();
-                }, function () {
-                    $(this).css('background-color', 'white');
-                    $(this).find('img.deleteFile').hide();
+                $.get('file/' + tg.innerText, function (data) {
+                    if (changeValue == true) {
+                        result = window.confirm('※ 현재 작성하고 있는 내용이 초기화됩니다.\n그래도 파일 [ ' + tg.innerText + ' ]을 열겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
+                        if (result == 1) {
+                            loadData(data, tg);
+
+                        } else {
+                            return;
+                        }
+                    } else {
+                        loadData(data, tg);
+
+                    }
                 });
-                $(tg).closest("div").off('mouseenter mouseleave');
-                $(tg).closest("div").find('img.deleteFile').show();
-                $(tg).css('font-weight', 'bold');
-                $(tg).children('p').css('font-weight', 'bold');
-                $(tg).closest("div").css('background-color', 'rgb(240, 240, 255)');
-                totalByte2();
-                $('#filenameInput').val(tg.innerText);
-                $('#contentsContainer').css({ opacity: 0.5 })
-                $('#contentsContainer').animate( { opacity: 1 }, 150);
             }
+        }
+        function loadData(data, tg) {
+            $('#contentsType > p').text('( ' + tg.innerText + ' )');
+            $('#contents').html(data);
+            $('.fileList').css('background-color', 'white');
+            $('.fileList > p').css('font-weight', 'normal');
+            $('.deleteFile').hide();
+            $('.fileList').hover(function () {
+                $(this).css('background-color', '#f3f3ff');
+                $(this).find('img.deleteFile').show();
+            }, function () {
+                $(this).css('background-color', 'white');
+                $(this).find('img.deleteFile').hide();
+            });
+            $(tg).closest("div").off('mouseenter mouseleave');
+            $(tg).closest("div").find('img.deleteFile').show();
+            $(tg).css('font-weight', 'bold');
+            $(tg).children('p').css('font-weight', 'bold');
+            $(tg).closest("div").css('background-color', 'rgb(240, 240, 255)');
+            totalByte2();
+            $('#filenameInput').val(tg.innerText);
+            $('#contentsContainer').css({ opacity: 0.5 })
+            $('#contentsContainer').animate({ opacity: 1 }, 150);
+            $('html').scrollTop(0);
+            sidemenuOpen(false);
+        }
 
         $(document).ready(function () {
-                initData();
+            initData();
 
-                $("#searchInput").focus(function () {
-                    $("#searchInput").css('color','black');
-                    $("#searchBar").css('background-color','white');
-                    if ($("#searchInput").val() == "search") {
-                        $("#searchInput").val("");
-                    }
-                });
+            $("#searchInput").focus(function () {
+                $("#searchInput").css('color', 'black');
+                $("#searchBar").css('background-color', 'white');
+                if ($("#searchInput").val() == "search") {
+                    $("#searchInput").val("");
+                }
+            });
 
-                $("#searchInput").blur(function () {
-                    $("#searchInput").css('color','#9d9d9d');
-                    $("#searchBar").css('background-color','rgb(239, 239, 239)');
-                    if ($("#searchInput").val() == "") {
-                        $("#searchInput").val("search");
-                    }
-                });
+            $("#searchInput").blur(function () {
+                $("#searchInput").css('color', '#9d9d9d');
+                $("#searchBar").css('background-color', 'rgb(239, 239, 239)');
+                if ($("#searchInput").val() == "") {
+                    $("#searchInput").val("search");
+                }
+            });
 
-                $("#inputContents").focus(function () {
-                    inputExtend(numOfLines(document.getElementById("inputContents"), lineHeight));
-                });
+            $("#inputContents").focus(function () {
+                inputExtend(numOfLines(document.getElementById("inputContents"), lineHeight));
+            });
 
-                $("#inputContents").blur(function () {
-                    inputExtend(false);
-                });
+            $("#inputContents").blur(function () {
+                inputExtend(false);
+            });
 
-                $("#searchButton").click(function () {
-                    var nameSplit = $('#searchInput').val();
-                    var spliting = nameSplit.split(".");
-                    var splitId = spliting[0] + '.txt';
-                    $.get('file/' + splitId, function (data) {
-                        if (changeValue == true) {
-                            result = window.confirm('※ 현재 작성하고 있는 내용이 초기화됩니다.\n그래도 파일 [ ' + splitId + ' ]을 열겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
-                            if (result == 1) {
-                                loadData(data, document.getElementById(splitId));
-                            } else {
-                                return;
-                            }
-                        } else {
+            $("#searchButton").click(function () {
+                var nameSplit = $('#searchInput').val();
+                var spliting = nameSplit.split(".");
+                var splitId = spliting[0] + '.txt';
+                var scrollLeft;
+                var _scrollX;
+                $.get('file/' + splitId, function (data) {
+                    if (changeValue == true) {
+                        result = window.confirm('※ 현재 작성하고 있는 내용이 초기화됩니다.\n그래도 파일 [ ' + splitId + ' ]을 열겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
+                        if (result == 1) {
                             loadData(data, document.getElementById(splitId));
+                            libraryScroll(document.getElementById(splitId));
+                        } else {
+                            return;
                         }
-                    });
+                    } else {
+                        loadData(data, document.getElementById(splitId));
+                        libraryScroll(document.getElementById(splitId));
+                    }
                 });
+            });
 
+            $("#scrolltopButton").click(function () {
+                if($('html').scrollTop() == 0){
+                    window.scrollTo(0, document.body.scrollHeight);
+                }else{
+                    $('html').scrollTop(0);
+                }
+            });
+
+            $("#bodyContainer").on('click', function () {
+                if($("#sidemenuButton").css('left') == '275px'){
+                    sidemenuOpen(false);
+                }
+            });
+
+            $("#sidemenuButton").click(function () {
+                if($('#sideMenuContainer').css('left') == '-250px'){
+                    sidemenuOpen(true);
+                }else{
+                    sidemenuOpen(false);
+                }
+            });
         });
+
+        function sidemenuOpen(bool) {
+                if ($("#sidemenuButton").css('top') == '25px') {
+                    if (bool) {
+                        $("#sidemenuButton").css('left', "275px");
+                        $('#sideMenuContainer').css('left', "0px");
+                    } else {
+                        $("#sidemenuButton").css('left', "25px");
+                        $('#sideMenuContainer').css('left', "-250px");
+                    }
+                }
+            }
+
+        function scrollbuttonMotion() {
+            if($('html').scrollTop() < 10){
+                $('#scrolltopButton > p').css('transform', 'rotate(-180deg)');
+                $('#scrolltopButton > p').css('padding-left', '5px');
+            }else{
+                $('#scrolltopButton > p').css('transform', 'rotate(0deg)');
+                $('#scrolltopButton > p').css('padding-left', '0px');
+            }
+        }
+
+        function libraryScroll(tg) {
+            scrollTop = $(tg).offset().top;
+            _scrollY = $("#libraryContainer").scrollTop();
+            $("#libraryContainer").scrollTop(_scrollY + scrollTop - 80);
+
+            return ture;
+        }
 
 
         function initData() {
@@ -453,7 +521,7 @@
                 success: function (data) {
                     $('#libraryContainer').html(data);
                     $('.fileList').css({ opacity: 0 })
-                    $('.fileList').animate( { opacity: 1 }, 250);
+                    $('.fileList').animate({ opacity: 1 }, 250);
                     $('.deleteFile').hide();
                     $('.deleteFile').on('click', function () {
                         result = window.confirm('※ 파일 [ ' + $(this).closest("div").attr('id') + ' ]를 삭제하시겠습니까?', { buttons: { Ok: true, Cancel: false }, focus: 1 });
@@ -487,6 +555,7 @@
                     alert("에러 발생");
                 }
             });
+            return true;
         }
 
         $(window).scroll(function () {
@@ -502,6 +571,7 @@
                     $('#project_title').css('padding-bottom', w + "rem");
                 }
             }
+            scrollbuttonMotion();
         });
 
 
@@ -529,11 +599,12 @@
                 $('#contentsContainer').css('width', "70%");
                 $('#inputContents').css('width', "100%");
                 $('#sideMenuContainer').css('left', "0");
-                $('#sideMenuContainer').css('visibility', "visible");
                 $('#bodyContainer').css('width', "calc(100% - 250px)");
                 $('#titleContainer').css('width', "calc(100% - 250px)");
                 $('#inputcontentsContainer').css('width', "calc(100% - 250px)");
                 $('#inputcontentsContainer2').css('width', "75%");
+                $('#sidemenuButton').css('top','-100px');
+                $("#sidemenuButton").css('left', "25px");
             } else if ($(window).outerWidth() > 900) {
                 $('#contentsContainer').css('width', "800px");
                 $('#inputContents').css('width', "650px");
@@ -542,7 +613,9 @@
                 $('#bodyContainer').css('width', "100%");
                 $('#titleContainer').css('width', "100%");
                 $('#inputcontentsContainer').css('width', "100%");
-                $('#inputcontentsContainer2').css('width', "auto");
+                $('#inputcontentsContainer2').css('width', "100%");
+                $('#sidemenuButton').css('top','25px');
+                $("#sidemenuButton").css('left', "25px");
             } else {
                 $('#contentsContainer').css('width', "90%");
                 $('#inputContents').css('width', "100%");
@@ -552,6 +625,8 @@
                 $('#titleContainer').css('width', "100%");
                 $('#inputcontentsContainer').css('width', "100%");
                 $('#inputcontentsContainer2').css('width', "95%");
+                $('#sidemenuButton').css('top','25px');
+                $("#sidemenuButton").css('left', "25px");
 
             }
         });
@@ -566,7 +641,10 @@
         <div id="searchBar">
             <input type="text" id="searchInput" value="search"><img id="searchButton" src="icon/search.png">
         </div>
-        <div id ="libraryFunctionContainer"><p>NAME</p><img id="refreshButton" src="icon/refresh.png" data-toglle="tooltip" title="REFRESH" onClick="initData()"></div>
+        <div id="libraryFunctionContainer">
+            <p>NAME</p><img id="refreshButton" src="icon/refresh.png" data-toglle="tooltip" title="REFRESH"
+                onClick="initData()">
+        </div>
         <div id="libraryContainer">
             <!-- 파일 리스트 -->
         </div>
@@ -576,7 +654,7 @@
             <div id="project_title" align="center">
                 <b>
                     <div id="mainTitle">TEXT GENERATOR</div>
-                    <div id="subTitle">&ltP&gt, &ltSPAN&gt, &ltDIV&gt</div>
+                    <div id="subTitle">version. 0.85</div>
                 </b>
             </div>
         </div>
@@ -588,10 +666,6 @@
                     &ltDIV&gt TAG : BLOCK<br></div>
             </div>
         </div>
-        <div id="project_contetnt" align="center">
-        </div>
-
-
         <div id="project_content" align="center">
         </div>
 
@@ -603,39 +677,45 @@
                         <p id="fileName">( new.txt )</p>
                         <div id="docByte">0 / 5120 KB</div>
                     </div>
-                    <div style="display: flex; justify-content: flex-end;"><img id="deleteButton" src="icon/delete.png"
+                    <div style="display: flex; justify-content: flex-end; user-select: none;"><img id="deleteButton" src="icon/delete.png"
                             onClick="deleteAll()" data-toglle="tooltip" title="DELETE">
-                        <div id="functionLine"></div><img id="newButton" src="icon/add-file.png"
-                        onClick="addFile()" data-toglle="tooltip" title="NEW"><img id="saveButton" src="icon/save.png" onClick="saveVisible()"
-                            data-toglle="tooltip" title="HTML SAVE"><img id="copyButton" src="icon/copy.png"
-                            onClick="copyAll()" data-toglle="tooltip" title="COPY">
+                        <div id="functionLine"></div><img id="newButton" src="icon/add-file.png" onClick="addFile()"
+                            data-toglle="tooltip" title="NEW"><img id="saveButton" src="icon/save.png"
+                            onClick="saveVisible()" data-toglle="tooltip" title="HTML SAVE"><img id="copyButton"
+                            src="icon/copy.png" onClick="copyAll()" data-toglle="tooltip" title="COPY">
                     </div>
                 </div>
                 <div id="saveInputContainer">
                     <div id="saveLabel">NAME :</div><input type="text" id="filenameInput" value="new.txt"><button
                         id="saveButton2" onClick="saveAll()">SAVE</button>
                 </div>
-                <div id="contents" align="left">Hello World!<br><br>입력 태그 타입 유연성있게 수정<br>버튼 오버 효과 추가 (check)<br>입력 키보드키로
+                <div id="contents" align="left">Hello World!<br><br>입력 태그 타입 유연성있게 수정 (fail)<br>버튼 오버 효과 추가 (check)<br>입력 키보드키로
                     불러오기 (check)<br>미디어쿼리 (check)<br>입력창 줄넘어가면 늘어나는 기능 (check)<br>입력창 글자수 기능 (check)<br>스크롤시 프로젝트 타이틀 확대
                     및 축소 (check)<br>info. 추가<br>사이드바 완성시키기<br>파일 읽기 기능 추가 (check)<br>파일 저장 기능 추가 (check)<br>맨 위로 올리기 버튼
-                    추가<br>파일 삭제 기능 추가 (check)<br>파일 검색 기능 추가 (check)<br>파일 목록 새로고침 기능 추가 (check)<br>모바일모드 사이드바 완성시키기<br></div>
+                    추가 (check)<br>파일 삭제 기능 추가 (check)<br>파일 검색 기능 추가 (check)<br>파일 목록 새로고침 기능 추가 (check)<br>모바일모드 사이드바 완성시키기 (check)<br>
+                </div>
                 <div id="footer" align="right">made by JongYeon Kim<br><b>ver.0.85</b></div>
             </div>
         </div>
         <div id="inputcontentsContainer">
             <div id="inputcontentsContainer2">
-                <div align="right" style="display: flex; flex-direction: column; justify-content: space-between; transition-duration: 0.2s; transition-timing-function: ease-out;">
+                <div align="right"
+                    style="display: flex; flex-direction: column; justify-content: space-between; transition-duration: 0.2s; transition-timing-function: ease-out;">
                     <div id="tagType" onClick="changeTag(); inputExtend(false);">
                         <p id="tagTypeName"><b>NONE</b></p>
                     </div>
                     <div id="byteCount">0 byte</div>
                 </div>
                 <textarea name="inputContents" id="inputContents" cols="15" rows="1"
-                    onkeyup="javascript:typeSelect(event); arrayLoad(event);"
+                    onkeyup="javascript:typeSelect(event); arrayLoad(event); totalByte();"
                     onkeydown="totalByte();"></textarea><button id="writeButton"
                     onClick="writeContent(); totalByte2();"><img id="enterImg" src="icon/enter.png"></button>
             </div>
         </div>
+    </div>
+    <div id="fixContainer">
+        <div id="sidemenuButton"><img src='icon/menu.png'></div>
+        <div id="scrolltopButton"><p>></p></div>
     </div>
 
 </body>
