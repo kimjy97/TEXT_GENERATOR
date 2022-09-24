@@ -122,9 +122,9 @@ body,html {
     border-top:3px solid #d4d4d4;
     border-bottom:3px solid #d4d4d4;
     overflow: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    overscroll-behavior: none;
+    -ms-overflow-style: contain; /* IE and Edge */
+    scrollbar-width: contain; /* Firefox */
+    overscroll-behavior: contain;
     scroll-behavior: smooth;
 }
 
