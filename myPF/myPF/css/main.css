@@ -529,10 +529,10 @@ justify-content: center;*/
 #sidemenuButton {
     position: fixed;
     display: flex;
-    left: 25px;
+    left: 20px;
     top: -100px;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 40px;
     transform: rotate(-90deg);
     align-items: center;
     justify-content: center;
@@ -550,8 +550,8 @@ justify-content: center;*/
 }
 
 #sidemenuButton > img {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18x;
     padding-bottom: 2px;
     cursor: pointer;
     transform: rotate(-90deg);
@@ -559,16 +559,17 @@ justify-content: center;*/
 
 #scrolltopButton {
     position: fixed;
-    text-align: center;
+    display: flex;
+    
     transform: rotate(-90deg);
     line-height: 50px;
     font-size: 15px;
     font-weight: 900;
     color: rgb(51, 51, 51);
-    right: 25px;
-    top: 25px;
-    width: 50px;
-    height: 50px;
+    right: 20px;
+    top: 20px;
+    width: 40px;
+    height: 40px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 100%;
     box-shadow: -4px 4px 13px -4.5px #000;
@@ -576,12 +577,13 @@ justify-content: center;*/
     backdrop-filter: blur(3px);
     cursor : pointer;
     box-sizing: border-box;
+    justify-content: center;
+    align-items: center;
 }
 
 #scrolltopButton > p {
     transform: rotate(-180deg);
-    padding-left: 5px;
-
+    text-align: center;
     -ms-transition-duration: 0.2s;
     -moz-transition-duration: 0.2s;
     -webkit-transition-duration: 0.2s;
@@ -634,6 +636,6 @@ justify-content: center;*/
         padding-bottom: 1.5rem;
     }
     #sidemenuButton {
-        top: 25px;
+        top: 20px;
     }
 }
