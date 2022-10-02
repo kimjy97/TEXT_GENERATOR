@@ -7,14 +7,14 @@ if(isset($_POST["action"]))
 
         for($i=0; $i < count($file_data); $i++)
         {
-            if($file_data[$i] == "info.txt"){
+            if($file_data[$i] == "readme.txt"){
                 $temp = $file_data[0];
-                $file_data[0] = "info.txt";
+                $file_data[0] = "readme.txt";
                 $file_data[$i] = $temp;
             }
-            if($file_data[$i] == "readme.txt"){
+            if($file_data[$i] == "guide.txt"){
                 $temp = $file_data[1];
-                $file_data[1] = "readme.txt";
+                $file_data[1] = "guide.txt";
                 $file_data[$i] = $temp;
             }
         }
@@ -25,7 +25,7 @@ if(isset($_POST["action"]))
             {
                 continue;
             }else{
-                if($file == "info.txt" || $file == "readme.txt"){
+                if($file == "readme.txt" || $file == "guide.txt"){
                     $output .= '<div class="fileList" id=' . $file . ' style="color:rgb(150,0,0)"><img id="fileType" src="icon/txt.png"><p onClick="fileLoad(this);">' . $file . '</p></div>';
                 }else{
                     $output .= '<div class="fileList" id=' . $file . '><img id="fileType" src="icon/txt.png"><p onClick="fileLoad(this);">' . $file . '</p><img class="deleteFile" src="icon/x.png"></div>';
