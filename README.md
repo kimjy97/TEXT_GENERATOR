@@ -1,6 +1,7 @@
 <h1>&nbsp#TEXT GENERATOR</h1>
     <p>&nbsp 이 프로젝트는 자주 활용되는 &ltP&gt, &ltSPAN&gt, &ltDIV&gt 태그들의 차이점을 이해하고 구분하여 실전 사용을 위해 간단하고 쉽게 연습 할 수 있도록 하기위해
         만들어졌습니다.</p>
+	<p align="center"><b> ※ 정상적인 서비스는 http://poot97.dothome.co.kr/TextGenerator/main.html 에서 이용가능합니다. ※ </b></
     <hr>
     </hr>
         <h2>Information</h2>
