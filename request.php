@@ -7,7 +7,7 @@ if(isset($_POST["name"]))
     $data = array('action' => $_POST["action"]);
 }
 
-$url = 'http://poot97.dothome.co.kr/myPF/action.php';
+$url = 'http://poot97.dothome.co.kr/TextGenerator/action.php';
 
 $options = array(
 	'http' => array(
