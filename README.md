@@ -2,9 +2,18 @@
     <p>&nbsp 이 프로젝트는 자주 활용되는 &ltP&gt, &ltSPAN&gt, &ltDIV&gt 태그들의 차이점을 이해하고 구분하여 실전 사용을 위해 간단하고 쉽게 연습 할 수 있도록 하기위해
         만들어졌습니다.</p>
 	<br>
-	<p align="center"><b> ※ 정상적인 서비스는 <a href="http://poot97.dothome.co.kr/TextGenerator/main.html" target="_blank">TEXT GENERATOR</a> 에서 이용가능합니다. ※ </b></
-    <hr>
-    </hr>
+	<p align="center">👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇👇<p>
+	<p align="center"><b> ※ 정상적인 서비스는 <a href="http://poot97.dothome.co.kr/TextGenerator/main.html" target="_blank">TEXT GENERATOR</a> 에서 이용가능합니다. ※ </b></p>
+	<p align="center">☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️☝️<p>
+	<br>
+	<p align="center">
+	<img src="https://img.shields.io/badge/version-0.95-green.svg"> <img src="https://img.shields.io/badge/project num.-001-purple.svg"> <img src="https://img.shields.io/badge/Responsive web-lightgrey"><br>
+	<img src="https://img.shields.io/badge/html5-E34F26?style=flat&logo=html5&logoColor=white">
+	<img src="https://img.shields.io/badge/css3-1572B6?style=flat&logo=css3&logoColor=white">
+	<img src="https://img.shields.io/badge/javascript-F7DF1E?style=flat&logo=javascript&logoColor=black">
+	<img src="https://img.shields.io/badge/jquery-0769AD?style=flat&logo=jquery&logoColor=white">
+	<img src="https://img.shields.io/badge/php-777BB4?style=flat&logo=php&logoColor=white">
+        </p>
         <h2>Information</h2>
         <ul type="circle">
             <li>Version. 0.95</li>
