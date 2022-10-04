@@ -60,6 +60,27 @@
                  <li>파일 목록에서 서버에 저장되어 있는 파일을 삭제 할 수 있습니다.</li>
             </ul>
         </ul>
+	<h2>Composition</h2>
+	<ul>
+            <li>
+                <h4>SERVER</h4>
+            </li>
+            <ul type="circle">
+                <li>FILE - 저장된 문서 디렉터리</li>
+                <li>action.php - 저장된 문서 제어</li>
+            </ul>
+	    <li>
+                <h4>PAGE</h4>
+            </li>
+            <ul type="circle">
+                <li>main.html - 페이지 구성</li>
+                <li>main.css - 페이지 구성</li>
+		<li>main.js - 페이지 구성</li>
+		<li>request.php - 서버에 있는 'action.php' 불러오기</li>
+		<li>getText.php - 서버에 저장 되어 있는 문서 내용 불러오기</li>
+		<li>icon - 아이콘 이미지</li>
+            </ul>
+	</ul>
         <br>
         
 Copyright 2022. poot97 All rights reserved.
